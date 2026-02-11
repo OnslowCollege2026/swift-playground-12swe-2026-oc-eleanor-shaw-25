@@ -1,110 +1,61 @@
 // The Swift Programming Language
 // https://docs.swift.org/swift-book
 
-
-func readNumber(prompt: String) -> Double {
-    var returnValue = -1.0
-
-    print(prompt)
-    guard let input = readLine(), let number = Double(input), number > 0 else {
-        print("Invalid number")
-        return readNumber(prompt: prompt)
-    }
-    returnValue = number
-    return returnValue
-    
+//TASK A
+func roomVolume() -> Double {
+    return 6 * 4 * 5
 }
+
+//TASK B
+func printArea(l length: Double, w width: Double) {
+    let area = length * width
+    print(area)
+}
+
+//TASK C
+func area(l length: Double, w width: Double) -> Double {
+    let roomArea = length * width
+    return roomArea 
+}
+
+//TASK D
+func volume(l length: Double, w width: Double, h height: Double) -> Double {
+    let volume = length * width * height 
+    return volume
+}
+
+//task a part 2
+
+
+/** 
+Calculates room area 
+-Parameters:
+    - Length of room in meters 
+    - Width of room in meter
+-Returns room area 
+*/
+func roomArea(length: Double, width: Double) -> Double {
+    return length * width
+}
+
 
 @main
 struct SwiftPlayground {
     static func main() {
 
-        let minimumLength = 0.0
-        let minimumWidth = 0.0
-        let minimumHeight = 0.0
-        let oversizedFuriture = 2.0
+//task A
+print(roomVolume(),"m³")
 
-        var thing = true
+//task b
+printArea(l: 6.0, w: 2.0)
 
-        while thing == true {
-            print("What is the length of your room?")
+//task c
+let roomArea = area(l: 6.0, w: 3.0)
+print(roomArea, "m²")
 
-            
-            var thing2 = true
+//task d
 
-            if let input = readLine(), let roomLength = Double(input), roomLength > minimumLength {
-                while thing2 == true {
-                    thing = false
-
-                    print("What is the width of your room?")
-
-                    if let input = readLine(), let roomWidth = Double(input), roomWidth > minimumWidth {
-                        let roomArea = roomWidth * roomLength
-                        
-                        thing2 = false
-
-                        var thing3 = true
-                        while thing3 == true {
-
-                            print("What is the height of your room?")
-                            if let input = readLine(), let roomHeight = Double(input), roomHeight > minimumHeight {
-                                let roomVolume = roomHeight * roomLength * roomWidth
-                                
-                                thing3 = false
-
-                                let furnitureVolumes = [1.2, 0.8, 2.5, 0.6, 1.0]
-
-
-                                for (index, furniture) in furnitureVolumes.enumerated() {
-                                    print("Item \(index + 1): \(furniture)")
-                                    if furniture > oversizedFuriture {
-                                        print("Oversized item detected")
-                                    }
-                                }
-                                let totalFurnitureVolume = furnitureVolumes.reduce(0,+)
-                                let usableVolume = roomVolume - totalFurnitureVolume
-                                
-                                print("\(roomArea)m²")
-                                print("\(roomVolume)m³")
-                                print("\(totalFurnitureVolume)m³")
-                                print("Usable volume: \(usableVolume)m³")
-
-                                if usableVolume > 60.0 {
-                                    print("Usable volume is fine.")
-                                } else {
-                                    print("You don't have enough space boy!")
-                                }
-
-
-
-
-                            } else {
-                            print("invalid number")
-                            }
-
-                        }
-                    } else {
-                        print("invalid number")
-                    }
-
-                }
-            } else {
-                    print("invalid number")
-            }
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
+print(volume(l: 7.0, w: 1.0, h: 2.0))
 
     }
 }
