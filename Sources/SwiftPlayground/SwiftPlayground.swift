@@ -38,6 +38,40 @@ func roomArea(length: Double, width: Double) -> Double {
     return length * width
 }
 
+/**
+Calculates room volume 
+- Parameters:
+    - Length of room in meters
+    - Width of room in meters
+    - Height of room in meters
+- Returns room volume
+*/
+func roomVolume(length: Double, width: Double, height: Double) -> Double {
+    return length * width * height
+}
+
+/**
+Checks if room is under 60 meters squared
+- Parameters:
+    - Volume of room in meters squared
+- Returns True if the room is below 60 m³.
+*/
+func isRoomSmall(volume: Double) -> Bool {
+    return volume < 60
+}
+
+/**
+Reduces height of room
+- Parameters 
+    - Orginal room height in meters
+    - Reduction percentage - how much the height is to be reduced by
+- Returns new room height that has been reduced
+*/
+
+func reducedHeight(original: Double, reductionPercent: Double) -> Double {
+    let multiplier = (100.0 - reductionPercent) / 100.0
+    return original * multiplier
+}
 
 @main
 struct SwiftPlayground {
