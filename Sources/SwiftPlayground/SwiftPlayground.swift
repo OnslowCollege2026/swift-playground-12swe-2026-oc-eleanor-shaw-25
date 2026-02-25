@@ -105,50 +105,49 @@ while usingShop == true {
     //Asks user what they want to do
     let currentMenuChoice = menuChoice()
 
-        //Option user might choose to add eggs.
-        if currentMenuChoice == 1 {
-            eggsInStock = addEggs(c: eggsInStock)
+    //Option user might choose to add eggs.
+    if currentMenuChoice == 1 {
+        eggsInStock = addEggs(c: eggsInStock)
 
-            //Option user might choose to sell eggs.
-        } else if currentMenuChoice == 2 {
-            let currentEggsSold = sellEggs(c: eggsInStock)
+        //Option user might choose to sell eggs.
+    } else if currentMenuChoice == 2 {
+        let currentEggsSold = sellEggs(c: eggsInStock)
 
-            //Subtracts sold eggs from egg stock 
-            eggsInStock -= currentEggsSold
+        //Subtracts sold eggs from egg stock 
+        eggsInStock -= currentEggsSold
 
-            //Adds sold eggs to eggs sold
-            eggsSold += currentEggsSold
+        //Adds sold eggs to eggs sold
+        eggsSold += currentEggsSold
 
-            //Option user might choose to show eggs in egg stock.
-        } else if currentMenuChoice == 3 {
-            print("You have \(eggsInStock) eggs in your egg stock.")
+        //Option user might choose to show eggs in egg stock.
+    } else if currentMenuChoice == 3 {
+        print("You have \(eggsInStock) eggs in your egg stock.")
 
-            //Option user might choose to show eggs sold.
-        } else if currentMenuChoice == 4 {
-            print("You have sold \(eggsSold) eggs in total.")
+        //Option user might choose to show eggs sold.
+    } else if currentMenuChoice == 4 {
+        print("You have sold \(eggsSold) eggs in total.")
 
-            //Option user might choose to end day.
-        } else if currentMenuChoice == 5 {
+        //Option user might choose to end day.
+    } else if currentMenuChoice == 5 {
 
-            //Prints end message.
-            whichDay = endDay(wd: whichDay, eis: eggsInStock, es: eggsSold)
+        //Prints end message.
+        whichDay = endDay(wd: whichDay, eis: eggsInStock, es: eggsSold)
 
-            //Resets egg stock and amount of eggs sold.
-            eggsInStock = 0
-            eggsSold = 0
+        //Resets egg stock and amount of eggs sold.
+        eggsInStock = 0
+        eggsSold = 0
 
-            //Option user might choose to exit program.
-        } else if currentMenuChoice == 6 {
+        //Option user might choose to exit program.
+    } else if currentMenuChoice == 6 {
 
-            //Prints ending message
-            print("Thank you for using this website!")
+        //Prints ending message
+        print("Thank you for using this website!")
 
-            //Stops repeating menu
-            usingShop = false
-        }
+        //Stops repeating menu
+        usingShop = false
+    }
 }
 
-
-    }
+}
 }
 
