@@ -13,29 +13,46 @@ func printBoard(board: [[String]]) {
 
 func askForMove(board: [[String]]) -> [Int] {
     while true{
-    print("Please enter the row number:")
-    if let userInput = readLine(), var rowNumber = Int(userInput) {
-        rowNumber -= 1 
+        print("Please enter the row number:")
+        if let userInput = readLine(), let rowNumber = Int(userInput), rowNumber > 0, rowNumber < 4 {
+            let systemRowNumber = rowNumber - 1
 
-        print("Please enter the column number:")
-        if let userInput = readLine(), var columnNumber = Int(userInput) {
-        columnNumber -= 1
-         if board[rowNumber][columnNumber] == "." {
-        return [rowNumber,columnNumber] 
+            print("Please enter the column number:")
+            if let userInput = readLine(), let columnNumber = Int(userInput), columnNumber > 0, columnNumber < 4 {
+                let systemColumnNumber = columnNumber - 1
+                if board[systemRowNumber][systemColumnNumber] == "." {
+                    return [systemRowNumber,systemColumnNumber] 
 
-    } else {
-        print("Invalid number")
-    }
+                } else {
+                    print("This spot is already taken please choose another.")
+                }
+            } else {
+                print("Invalid number")
+            } 
 
-    } else {
-        print("Invalid number")
-    }
-    
-    
-   
-    }
+
+
+        } else {
+                print("Invalid number")
+        } 
+    } 
+
+}
+
+
+
+
+
+
+
+func hasWon(b board:[[String]]) {
+
+    if board[0][0] == "x" {
+
     }
 }
+
+
 @main
 struct SwiftPlayground {
     static func main() {
@@ -64,7 +81,7 @@ if player == "x"{
     player = "x"
 }
 
-
+hasWon(b: board)
 
 
 }
