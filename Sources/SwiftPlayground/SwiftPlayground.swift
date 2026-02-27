@@ -82,72 +82,64 @@ func endDay(wd whichDay:Int, eis eggInStock:Int, es eggsSold:Int) -> Int {
 }
 
 
-
 @main
 struct SwiftPlayground {
     static func main() {
 
-///Tells system the user is using the website
-var usingShop = true
+        ///Used to repeat code until the user wants to leave.
+        var usingShop = true
 
-///Number of eggs in stock
-var eggsInStock = 0
+        ///Variables of the stock. 
+        var eggsInStock = 0
+        var eggsSold = 0
 
-///Number of eggs sold
-var eggsSold = 0
+        ///Counts days passed. 
+        var whichDay = 0
 
-///Which day it is 
-var whichDay = 0
+        //Repeats until users wants to stop using the website
+        while usingShop == true {
 
-//Repeats until users wants to stop using the website
-while usingShop == true {
+            //Opens menu.
+            let currentMenuChoice = menuChoice()
 
-    //Asks user what they want to do
-    let currentMenuChoice = menuChoice()
+            //Option user might choose to add eggs.
+            if currentMenuChoice == 1 {
+                eggsInStock = addEggs(c: eggsInStock)
 
-    //Option user might choose to add eggs.
-    if currentMenuChoice == 1 {
-        eggsInStock = addEggs(c: eggsInStock)
+                //Option user might choose to sell eggs.
+            } else if currentMenuChoice == 2 {
+                let currentEggsSold = sellEggs(c: eggsInStock)
 
-        //Option user might choose to sell eggs.
-    } else if currentMenuChoice == 2 {
-        let currentEggsSold = sellEggs(c: eggsInStock)
+                //Updates stock variables numbers.  
+                eggsInStock -= currentEggsSold
+                eggsSold += currentEggsSold
 
-        //Subtracts sold eggs from egg stock 
-        eggsInStock -= currentEggsSold
+                //Option user might choose to show eggs in egg stock.
+            } else if currentMenuChoice == 3 {
+                print("You have \(eggsInStock) eggs in your egg stock.")
 
-        //Adds sold eggs to eggs sold
-        eggsSold += currentEggsSold
+                //Option user might choose to show eggs sold.
+            } else if currentMenuChoice == 4 {
+                print("You have sold \(eggsSold) eggs in total.")
 
-        //Option user might choose to show eggs in egg stock.
-    } else if currentMenuChoice == 3 {
-        print("You have \(eggsInStock) eggs in your egg stock.")
+                //Option user might choose to end day.
+            } else if currentMenuChoice == 5 {
 
-        //Option user might choose to show eggs sold.
-    } else if currentMenuChoice == 4 {
-        print("You have sold \(eggsSold) eggs in total.")
+                //Prints end message.
+                whichDay = endDay(wd: whichDay, eis: eggsInStock, es: eggsSold)
 
-        //Option user might choose to end day.
-    } else if currentMenuChoice == 5 {
+                //Resets egg stock and amount of eggs sold.
+                eggsInStock = 0
+                eggsSold = 0
 
-        //Prints end message.
-        whichDay = endDay(wd: whichDay, eis: eggsInStock, es: eggsSold)
+                //Option user might choose to exit program.
+            } else if currentMenuChoice == 6 {
+                print("Thank you for using this website!")
 
-        //Resets egg stock and amount of eggs sold.
-        eggsInStock = 0
-        eggsSold = 0
-
-        //Option user might choose to exit program.
-    } else if currentMenuChoice == 6 {
-
-        //Prints ending message
-        print("Thank you for using this website!")
-
-        //Stops repeating menu
-        usingShop = false
+                //Stops repeating menu
+                usingShop = false
+            }
+        }
     }
-}
-
-}
 }
 
