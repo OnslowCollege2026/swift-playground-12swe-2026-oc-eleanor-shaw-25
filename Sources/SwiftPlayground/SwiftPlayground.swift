@@ -3,143 +3,119 @@
 
 
 
+///Calculates the total of a column in a 2D array.
+/// Parameters 
+///     - Table - the 2D array
+///     - Column - the column which the system is calculating the total of
+func columnTotal(table: [[Int]], column: Int) {
+var sum = 0
 
+for row in table {
 
-
-/// Shows menu and prompts for an action in the menu
-/// - Returns: menu choice the user picked
-func menuChoice() -> Int {
-
-        print("""
-    ==== Egg Shop ====
-    1. Add eggs
-    2. Sell eggs
-    3. Show current stock
-    4. Show total eggs sold
-    5. End day
-    6. Exit
-    Choose an option:
-    """)
-
-    guard let input = readLine(), let menuChoice = Int(input), menuChoice > 0, menuChoice < 7 else {
-        print("Invalid number")
-        return 0
-    }
-        return menuChoice
+    if row.count < column {
+        
+} else {
+    sum += row[column - 1]
 }
 
 
-/// Adds desried amount of eggs to egg stock
-/// - Parameters:
-///    - currentStock: the current amount of eggs in stock
-/// - Returns: the new stock with desried added amount
-func addEggs(c currentStock: Int) -> Int {
-    print("How many eggs do you want to add?")
-    guard let input = readLine(), let addAmount = Int(input), addAmount > 0 else {
-        print("Invalid number")
-        return currentStock
-    }
-    let newStock = currentStock + addAmount
-    if newStock > 1001 {
-        print("Your egg stock cannot exceed 1000 eggs.")
-        return currentStock
-    }
-    return newStock
-    
+}
+print (sum)
 }
 
 
-/// Subtracts sold amount of eggs from egg stock 
-/// - Parameters:
-///    - currentStock: the current amount of eggs in stock
-/// - Returns: new amount of egg stock with the subtracted amount of sold eggs
-func sellEggs(c currentStock: Int) -> Int {
-    print("How many egg do you want to sell?")
-    guard let input = readLine(), let sellAmount = Int(input), sellAmount > -1, sellAmount < currentStock else {
-        print("Invalid number")
-        return 0
+/// Calculates the maximum value in 2D array
+/// - Parameter array: 2D array
+/// - Returns: biggestValue - the maximum value in 2D array.
+func maxValue(in array : [[Double]]) -> Double {
+    var biggestValue = -100000.00
+    for row in array {
+        for value in row {
+            if value > biggestValue {
+                biggestValue = value
+            } 
+        }
     }
-    return sellAmount
-}
+        return biggestValue
+    }
 
-
-/// Ends a day using the egg stock website and prints end message
-/// - Parameters:
-///   - whichDay: The number of days that has passed
-///   - eggInStock: the amount of eggs in the egg stock in the day
-///   - eggsSold: the amount of eggs sold in the day
-/// - Returns: A new day number as a day has passed
-func endDay(wd whichDay:Int, eis eggInStock:Int, es eggsSold:Int) -> Int {
-    
-    let dayNumber = whichDay + 1
-    print("""
-    Ending day \(dayNumber)
-    Today you added \(eggInStock)
-    and sold \(eggsSold) 
-    your eggs will be reset tomorrow
-    """)
-    return dayNumber
-}
 
 
 @main
 struct SwiftPlayground {
     static func main() {
 
-        ///Used to repeat code until the user wants to leave.
-        var usingShop = true
 
-        ///Variables of the stock. 
-        var eggsInStock = 0
-        var eggsSold = 0
 
-        ///Counts days passed. 
-        var whichDay = 0
 
-        //Repeats until users wants to stop using the website
-        while usingShop == true {
+//Task A
 
-            //Opens menu.
-            let currentMenuChoice = menuChoice()
+let temperatures = [
+    [78, 82, 91, 77],
+    [65, 70, 68, 61],
+    [88, 94, 90, 91]
+]
 
-            //Option user might choose to add eggs.
-            if currentMenuChoice == 1 {
-                eggsInStock = addEggs(c: eggsInStock)
+//Prints information about tempertures.
+print(temperatures[0])
+print(temperatures[1][2])
+print(temperatures[2][0])
+print(temperatures[1].reduce(0, +) / temperatures[1].count)
 
-                //Option user might choose to sell eggs.
-            } else if currentMenuChoice == 2 {
-                let currentEggsSold = sellEggs(c: eggsInStock)
 
-                //Updates stock variables numbers.  
-                eggsInStock -= currentEggsSold
-                eggsSold += currentEggsSold
+//Task B
 
-                //Option user might choose to show eggs in egg stock.
-            } else if currentMenuChoice == 3 {
-                print("You have \(eggsInStock) eggs in your egg stock.")
+let table = [
+    [2, 4, 6],
+    [8, 10, 12],
+    [14, 16, 18]
+]
 
-                //Option user might choose to show eggs sold.
-            } else if currentMenuChoice == 4 {
-                print("You have sold \(eggsSold) eggs in total.")
+//Prints total of table.
+var sum = 0
+for row in table {
+    for value in row {
+        print(value)
+        sum += value
+    }
+}
+print(sum)
 
-                //Option user might choose to end day.
-            } else if currentMenuChoice == 5 {
 
-                //Prints end message.
-                whichDay = endDay(wd: whichDay, eis: eggsInStock, es: eggsSold)
 
-                //Resets egg stock and amount of eggs sold.
-                eggsInStock = 0
-                eggsSold = 0
+//Task C
 
-                //Option user might choose to exit program.
-            } else if currentMenuChoice == 6 {
-                print("Thank you for using this website!")
+let tableB = [
+    [3, 5, 7, 9],
+    [2, 4],
+    [8, 6, 1],
+    [10]
+]
 
-                //Stops repeating menu
-                usingShop = false
-            }
-        }
+//Asks user what column they want to ind the total of.
+print("What column?")
+let input = readLine()!, column:Int = Int(input)! 
+
+columnTotal(table: tableB, column: column)
+
+
+
+
+//Task D
+
+
+let readings = [
+    [1.5, 3.2, 2.8],
+    [7.1],
+    [4.4, 6.0],
+    [5.9, 8.3, 0.7, 2.2]
+]
+
+let biggestValue = maxValue(in: readings)
+
+    print("The largest value in the 2D array is \(biggestValue)")
+
+
     }
 }
 
