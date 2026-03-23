@@ -26,7 +26,7 @@ func printBoard(_ board: [[String]]) {
 /// Returns: The updated guesses grid after the guess is applied.
 func processGuess(row: Int, col: Int, ocean: [[String]], guesses: [[String]]) -> [[String]] {
     var newGuesses = guesses
-if row > 6, row < 1, col > 6, guesses[row][col] == "X", guesses[row][col] == "S", guesses[row][col] == "O" {
+if row > 5, row < 0, col > 5, col < 0, guesses[row][col] == "X", guesses[row][col] == "S", guesses[row][col] == "O" {
     print("Invalid number")
     
 }
@@ -61,7 +61,7 @@ func remainingShips(in ocean: [[String]], guesses: [[String]]) -> Int {
     }
         for row in guesses {
         for value in row {
-            if value == "S" {
+            if value == "X" {
                 numberShipsHit += 1
             }
         }
@@ -74,11 +74,12 @@ func remainingShips(in ocean: [[String]], guesses: [[String]]) -> Int {
 struct SwiftPlayground {
     static func main() {
 
+        let maxGuesses = 10
+
 let size = 6
 var ocean = Array(repeating: Array(repeating: "~", count: size), count: size)
 var guesses = Array(repeating: Array(repeating: "~", count: size), count: size)
 
-guesses = processGuess(row: 1, col: 1, ocean: ocean, guesses: guesses)
 
 
 printBoard(ocean)
@@ -87,36 +88,69 @@ print("You are player 1 ")
 
 for shipNumber in  0..<4 {
     print("Choose the row for ship number \(shipNumber + 1)")
-guard let input = readLine(), let shipRow:Int = Int(input), shipRow > 0 else {
+guard let input = readLine(), let shipRow:Int = Int(input), shipRow > 0, shipRow < 7 else {
     print("Invalid number")
     return
 } 
-    print("Choose the column for ship number \(shipNumber)")
-guard let input = readLine(), let shipCol:Int = Int(input), shipCol > 0 else {
+    print("Choose the column for ship number \(shipNumber + 1)")
+guard let input = readLine(), let shipCol:Int = Int(input), shipCol > 0, shipCol < 7 else {
     print("Invalid number")
     return
 } 
 
 ocean[shipRow - 1][shipCol - 1] = "S"
 
+}
 
+print("""
+
+
+
+
+
+
+
+
+
+
+
+
+
+""")
+
+
+
+var progress = 1
+while progress < maxGuesses {
+
+    print("You are player 2. What is your row guess?")
+    guard let input = readLine(), let guessRow:Int = Int(input), guessRow > 0, guessRow < 7 else {
+        print("Invalid number")
+        continue
+    } 
+
+    print("You are player 2. What is your column guess?")
+    guard let input = readLine(), let guessCol:Int = Int(input), guessCol > 0, guessCol < 7 else {
+        print("Invalid number")
+        continue
+    } 
+
+    guesses = processGuess(row: guessRow - 1, col: guessCol - 1, ocean: ocean, guesses: guesses)
+    progress += 1 
+
+    let remainingShips = remainingShips(in: ocean, guesses: guesses)
+
+    printBoard(guesses)
+    if remainingShips == 0 {
+        print("PLAYER TWO WINS")
+    }
+}
+
+let remainingShips = remainingShips(in: ocean, guesses: guesses)
+if remainingShips != 0 {
+    print("PLAYER ONE WINS")
 }
 printBoard(ocean)
-
-printBoard(guesses)
-
-print("You are player 2. What is your row guess?")
-guard let input = readLine(), let guessRow:Int = Int(input) else {
-    print("Invalid number")
-    return
-} 
-
-print("You are player 2. What is your column guess?")
-guard let input = readLine(), let guessCol:Int = Int(input) else {
-    print("Invalid number")
-    return
-} 
-guesses = processGuess(row: guessRow - 1, col: guessCol - 1, ocean: ocean, guesses: guesses)
 
 
     }
