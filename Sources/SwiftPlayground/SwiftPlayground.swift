@@ -2,110 +2,103 @@
 // https://docs.swift.org/swift-book
 
 
-func readNumber(prompt: String) -> Double {
-    var returnValue = -1.0
 
-    print(prompt)
-    guard let input = readLine(), let number = Double(input), number > 0 else {
-        print("Invalid number")
-        return readNumber(prompt: prompt)
-    }
-    returnValue = number
-    return returnValue
-    
-}
 
 @main
 struct SwiftPlayground {
     static func main() {
 
-        let minimumLength = 0.0
-        let minimumWidth = 0.0
-        let minimumHeight = 0.0
-        let oversizedFuriture = 2.0
-
-        var thing = true
-
-        while thing == true {
-            print("What is the length of your room?")
-
-            
-            var thing2 = true
-
-            if let input = readLine(), let roomLength = Double(input), roomLength > minimumLength {
-                while thing2 == true {
-                    thing = false
-
-                    print("What is the width of your room?")
-
-                    if let input = readLine(), let roomWidth = Double(input), roomWidth > minimumWidth {
-                        let roomArea = roomWidth * roomLength
-                        
-                        thing2 = false
-
-                        var thing3 = true
-                        while thing3 == true {
-
-                            print("What is the height of your room?")
-                            if let input = readLine(), let roomHeight = Double(input), roomHeight > minimumHeight {
-                                let roomVolume = roomHeight * roomLength * roomWidth
-                                
-                                thing3 = false
-
-                                let furnitureVolumes = [1.2, 0.8, 2.5, 0.6, 1.0]
-
-
-                                for (index, furniture) in furnitureVolumes.enumerated() {
-                                    print("Item \(index + 1): \(furniture)")
-                                    if furniture > oversizedFuriture {
-                                        print("Oversized item detected")
-                                    }
-                                }
-                                let totalFurnitureVolume = furnitureVolumes.reduce(0,+)
-                                let usableVolume = roomVolume - totalFurnitureVolume
-                                
-                                print("\(roomArea)m²")
-                                print("\(roomVolume)m³")
-                                print("\(totalFurnitureVolume)m³")
-                                print("Usable volume: \(usableVolume)m³")
-
-                                if usableVolume > 60.0 {
-                                    print("Usable volume is fine.")
-                                } else {
-                                    print("You don't have enough space boy!")
-                                }
-
-
-
-
-                            } else {
-                            print("invalid number")
-                            }
-
-                        }
-                    } else {
-                        print("invalid number")
-                    }
-
-                }
-            } else {
-                    print("invalid number")
-            }
-        }
 
 
 
 
 
 
+//Constants and Variables
+
+//Each inner array contains the english word, then the correct answer, and then 3 incorrect answers
+let vocabulary : [[String]] = [
+    ["Hello", "Hola","Ola", "Halo", "Holla"],
+    ["Goodbye", "Adiós", "Adios", "Hola", "Si"],
+    ["Thank you", "Gracias", "Manzana", "De nada", "Quiero"],
+    ["Yes", "Sí", "Si", "No", "Ni"],
+    ["You're welcome", "De nada", "Gracias", "Arriba", "Caja"]
+]
+
+//Number of questions that the user got right.
+var count = 0
+
+//Indices of the question that the user got wrong
+var incorrectIndies: [Int] = []
+
+// The number of questions that the user got wrong first time round
+var incorrectCount = 0 
+
+//
 
 
 
+//Loop until all of the vocabulary questiions have been asked.
+while count < vocabulary.count {
+for vocab in vocabulary {
+    
+    var random:[Int] = [0,0,0,0]
+    random[0] = Int.random(in: 1...4)
+    random[1] = Int.random(in: 1...4)
+    while random[1] == random[0] {
+        random[1] = Int.random(in: 1...4)
+    }
+    random[2] = Int.random(in: 1...4)
+    while random[2] == random[1] || random[2] == random[0] {
+        random[2] = Int.random(in: 1...4)
+    }
+    random[3] = Int.random(in: 1...4)
+    while random[3] == random[1] || random[3] == random[0] || random[3] == random[2] {
+        random[3] = Int.random(in: 1...4)
+    }
 
 
+var correctAnswer = 0
+for number in random {
+    if number == 1 {
+        correctAnswer = number
+    }
+}
+print(correctAnswer)
+    print("""
+    What is the spanish word for \(vocab[0])?
+    The options are: \(vocab[random[0]]), \(vocab[random[1]]), \(vocab[random[2]]), \(vocab[random[3]]))
+    """)
+
+if let input = readLine(), let answer:Int = Int(input) {
 
 
+    if answer == random[correctAnswer] {
+        print("YES CORRECT")
+    } else {
+        print("NO")
+        incorrectCount += 1
+        incorrectIndies.append(count)
+    }
+    
+} else {
+    print("Invalid answer")
+}
+count += 1
+
+}
+
+print(incorrectIndies)
+
+// Show the question.
+
+//Present the possible answers
+
+//Check if the user guessed the correct answer.
+
+//If not, make a note of the question to ask again later. 
 
     }
 }
 
+}
