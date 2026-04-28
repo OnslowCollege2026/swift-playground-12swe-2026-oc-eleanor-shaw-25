@@ -42,11 +42,16 @@ guard let input = readLine(), let addAmount = Double(input), addAmount > 0 else 
 }
 
 func recordSale(s currentStock: Double) -> [Double] {
+
+//amount of kumara
+
     print("How many kgs of kumara are being sold?")
     guard let input = readLine(), let sellAmount = Double(input), sellAmount > 0, sellAmount <= currentStock else {
         print("Invalid input. Please enter a number greater than 0 but smaller than the kumara stock.")
         return [0,0]
     }
+
+//bags
 
 
     print("How many bags are being sold?")
@@ -55,18 +60,70 @@ func recordSale(s currentStock: Double) -> [Double] {
     }
 let minimumBags = sellAmount / 5
 let newBagAmount = Double(bagAmount)
-    print(minimumBags)
 if newBagAmount < minimumBags {
     print("Invalid input. Each bag can only hold 5kg of kumara. You need more bags.")
     return [0,0]
 }
-    return [sellAmount, newBagAmount]
+
+//price
+let totalKumaraPrice = sellAmount * 3
+let totalBagPrice = newBagAmount * 0.2 
+let totalPrice = totalKumaraPrice + totalBagPrice
+
+print("""
+The cost of the kumara is $\(totalKumaraPrice)
+The cost of the bag(s) is $\(totalBagPrice)
+The total cost is $\(totalPrice)
+""")
+    return [sellAmount, newBagAmount, totalPrice]
 }
 
-//func showSummaryInformation(s salesHistory: [[Double]]) {
+func showSummaryInformation(s salesHistory: [[Double]]) {
 
+//average weight sold per bag
 
+//total amount of kumara
+var totalKumaraSold = 0.0
+for row in salesHistory {
+    totalKumaraSold += row[0]
+}
+var totalBagSold = 0.0
+for row in salesHistory {
+    totalBagSold += row[1]
+}
+var totalMoneyMade = 0.0 
+for row in salesHistory {
+    totalMoneyMade += row[2]
+}
 
+let averageBagWeight = totalKumaraSold / totalBagSold 
+let averageMoneyMade = totalMoneyMade / totalBagSold
+
+print("""
+Summary Information:
+
+Total kumara sold: \(totalKumaraSold)
+Total bags sold: \(totalBagSold)
+Money made: \(totalMoneyMade)
+
+Average weight per bag: \(averageBagWeight)
+Average amount earned per bag: \(averageMoneyMade)
+""")
+}
+
+func viewPreviousSales(s salesHistory: [[Double]]) {
+
+print("Previous sales:")
+
+var customerNumber = 0
+    for row in salesHistory {
+        let kumaraSold = row[0]
+        let bagsSold = row[1]
+        let moneyMade = row[2]
+        customerNumber += 1
+        print("Customer #\(customerNumber), brought \(kumaraSold)kg of kumara, \(bagsSold) bags and spent \(moneyMade).")
+    }
+}
 
 
 
@@ -92,7 +149,7 @@ if menuChoice == 1 {
 kumaraStock = addStock(s: kumaraStock)
 
 } else if menuChoice == 2 {
-    print("You have \(kumaraStock)kgs of kumara in stock")
+    print("You have \(kumaraStock)kgs of kumara in stock.")
 
 } else if menuChoice == 3 {
     let sale = recordSale(s: kumaraStock)
@@ -100,15 +157,15 @@ kumaraStock = addStock(s: kumaraStock)
 
     } else {
     salesHistory.append(sale)
-    print(salesHistory)
     kumaraStock -= salesHistory[salesHistory.count - 1][0]
     }
+    print(salesHistory)
 
 } else if menuChoice == 4 {
-  //  showSummaryInformation(s: salesHistory)
+showSummaryInformation(s: salesHistory)
 
 } else if menuChoice == 5 {
-    print("view previous sales")
+    viewPreviousSales(s: salesHistory)
 
 } else if menuChoice == 6 {
     print("end program")
