@@ -1,9 +1,9 @@
 // The Swift Programming Language
 // https://docs.swift.org/swift-book
 
-func callMenu() -> Int {
+func callMenu(min minimumMenuChoice: Int, max maximumMenuChoice: Int, i invalidInput: Int) -> Int {
 
-print("""
+    print("""
 
 KUMARA STALL MENU
 
@@ -18,37 +18,45 @@ Please enter number:
 """)
 
 
-guard let input = readLine(), let menuChoice:Int = Int(input), menuChoice > 0, menuChoice < 7 else {
-    print("Invalid input. Please enter a number between 1-6.")
-    return 0
-}
-return menuChoice
+    guard let input = readLine(), let menuChoice:Int = Int(input), menuChoice >= minimumMenuChoice, menuChoice <= maximumMenuChoice else {
+        print("Invalid input. Please enter a number between \(minimumMenuChoice)-\(maximumMenuChoice).")
+        return invalidInput
+    }
+    return menuChoice
 }
 
 
-func addStock(s currentStock:Double) -> Double {
+func addStock(s currentStock:Double, min minimumKumaraAmount: Double, max maximumStallAmount:Double) -> Double {
 
     print("How many kg of kumara do you want to add to the stock?")
-guard let input = readLine(), let addAmount = Double(input), addAmount > 0 else {
-        print("Invalid input. Please enter a number greater than 0.")
+    guard let input = readLine(), let addAmount = Double(input), addAmount >= minimumKumaraAmount else {
+        print("Invalid input. Please enter a number greater than \(minimumKumaraAmount).")
         return currentStock
     }
     let newStock = currentStock + addAmount
-    if newStock > 50 {
-        print("Invalid input. The kumara stall cannot excced 50kg of kumara.")
+    if newStock > maximumStallAmount {
+        print("Invalid input. The kumara stall cannot excced \(maximumStallAmount)kg of kumara.")
         return currentStock
     }
+
+    //Deciamalssss
+    
+
     return newStock
 }
 
-func recordSale(s currentStock: Double) -> [Double] {
+
+
+
+
+func recordSale(s currentStock: Double, minKum minimumKumaraAmount:Double, i invalidInput: [Double], maxKumInBag maximumKumaraInBag: Double, kumP kumaraPricePerKg: Double, bagP bagPrice: Double) -> [Double] {
 
 //amount of kumara
 
     print("How many kgs of kumara are being sold?")
-    guard let input = readLine(), let sellAmount = Double(input), sellAmount > 0, sellAmount <= currentStock else {
-        print("Invalid input. Please enter a number greater than 0 but smaller than the kumara stock.")
-        return [0,0]
+    guard let input = readLine(), let sellAmount = Double(input), sellAmount >= minimumKumaraAmount, sellAmount <= currentStock else {
+        print("Invalid input. Please enter a number greater than \(minimumKumaraAmount) but smaller than the kumara stock.")
+        return invalidInput
     }
 
 //bags
@@ -56,66 +64,66 @@ func recordSale(s currentStock: Double) -> [Double] {
 
     print("How many bags are being sold?")
     guard let input = readLine(), let bagAmount = Int(input) else {
-        return [0,0]
+        return invalidInput
     }
-let minimumBags = sellAmount / 5
-let newBagAmount = Double(bagAmount)
-if newBagAmount < minimumBags {
-    print("Invalid input. Each bag can only hold 5kg of kumara. You need more bags.")
-    return [0,0]
-}
+    let minimumBags = sellAmount / maximumKumaraInBag
+    let newBagAmount = Double(bagAmount)
+    if newBagAmount < minimumBags {
+        print("Invalid input. Each bag can only hold \(maximumKumaraInBag)kg of kumara. You need more bags.")
+        return invalidInput
+    }
 
 //price
-let totalKumaraPrice = sellAmount * 3
-let totalBagPrice = newBagAmount * 0.2 
-let totalPrice = totalKumaraPrice + totalBagPrice
+    let totalKumaraPrice = sellAmount * kumaraPricePerKg
+    let totalBagPrice = newBagAmount * bagPrice 
+    let totalPrice = totalKumaraPrice + totalBagPrice
 
-print("""
-The cost of the kumara is $\(totalKumaraPrice)
-The cost of the bag(s) is $\(totalBagPrice)
-The total cost is $\(totalPrice)
-""")
+    print("""
+    The cost of the kumara is $\(totalKumaraPrice)
+    The cost of the bag(s) is $\(totalBagPrice)
+    The total cost is $\(totalPrice)
+    """)
     return [sellAmount, newBagAmount, totalPrice]
 }
 
 func showSummaryInformation(s salesHistory: [[Double]]) {
 
-//average weight sold per bag
+    //average weight sold per bag
 
-//total amount of kumara
-var totalKumaraSold = 0.0
-for row in salesHistory {
-    totalKumaraSold += row[0]
-}
-var totalBagSold = 0.0
-for row in salesHistory {
-    totalBagSold += row[1]
-}
-var totalMoneyMade = 0.0 
-for row in salesHistory {
-    totalMoneyMade += row[2]
-}
+    //total amount of kumara
+    var totalKumaraSold = 0.0
+    for row in salesHistory {
+        totalKumaraSold += row[0]
+    }
+    var totalBagSold = 0.0
+    for row in salesHistory {
+        totalBagSold += row[1]
+    }
+    var totalMoneyMade = 0.0 
+    for row in salesHistory {
+        totalMoneyMade += row[2]
+    }
 
-let averageBagWeight = totalKumaraSold / totalBagSold 
-let averageMoneyMade = totalMoneyMade / totalBagSold
+    let averageBagWeight = totalKumaraSold / totalBagSold 
+    let averageMoneyMade = totalMoneyMade / totalBagSold
 
-print("""
-Summary Information:
+    print("""
+    Summary Information:
 
-Total kumara sold: \(totalKumaraSold)
-Total bags sold: \(totalBagSold)
-Money made: \(totalMoneyMade)
+    Total kumara sold: \(totalKumaraSold)
+    Total bags sold: \(totalBagSold)
+    Money made: \(totalMoneyMade)
 
-Average weight per bag: \(averageBagWeight)
-Average amount earned per bag: \(averageMoneyMade)
-""")
+    Average weight per bag: \(averageBagWeight)
+    Average amount earned per bag: \(averageMoneyMade)
+    """)
 }
 
 func viewPreviousSales(s salesHistory: [[Double]]) {
 
-print("Previous sales:")
+    print("Previous sales:")
 
-var customerNumber = 0
+    var customerNumber = 0
     for row in salesHistory {
         let kumaraSold = row[0]
         let bagsSold = row[1]
@@ -134,53 +142,81 @@ struct SwiftPlayground {
 
 var programRunning = true
 var kumaraStock = 0.0
-//var previousSales = []
-//50kg max kumara 5,000 bags
+var salesHistory:[[Double]] = []
 
-var salesHistory:[[Double]] = [
-]
+///Constants for different menu choices.
+
+///Menu choice for adding stock.
+let menuChoiceAddStock = 1
+let menuChoiceViewStock = 2
+let menuChoiceRecordSale = 3
+let menuChoiceViewSummaryInfomation = 4
+let menuChoiceViewPreviousSales = 5
+let menuChoiceEndProgram = 6
+
+///Minimum/maximum amounts for things
+let minimumMenuChoice = 1
+let maximumMenuChoice = 6
+let invalidMenuChoice = 0
+
+let minimumKumaraAmount = 0.1
+let maximumStallAmount = 50.0
+
+let maximumKumaraInBag = 5.0
+let kumaraPricePerKg = 3.0
+let bagPrice = 0.2
+
+let invalidInput:[Double] = [0,0]
 
 
+
+
+
+//Repeats code until user wants to end program. 
 while programRunning == true{
 
-let menuChoice = callMenu()
+    //Opens menu for user to choose from. 
+    let menuChoice = callMenu(min:minimumMenuChoice, max:maximumMenuChoice, i:invalidMenuChoice)
 
-if menuChoice == 1 {
-kumaraStock = addStock(s: kumaraStock)
+    //Menu choice for add stock. 
+    if menuChoice == menuChoiceAddStock {
+        kumaraStock = addStock(s: kumaraStock, min: minimumKumaraAmount, max:maximumStallAmount)
 
-} else if menuChoice == 2 {
-    print("You have \(kumaraStock)kgs of kumara in stock.")
 
-} else if menuChoice == 3 {
-    let sale = recordSale(s: kumaraStock)
-    if sale == [0,0] {
+    //Menu choice for view stock
+    } else if menuChoice == menuChoiceViewStock {
+        print("You have \(kumaraStock)kgs of kumara in stock.")
 
-    } else {
-    salesHistory.append(sale)
-    kumaraStock -= salesHistory[salesHistory.count - 1][0]
+
+    //Menu choice for record sale. 
+    } else if menuChoice == menuChoiceRecordSale {
+        let sale = recordSale(s: kumaraStock, minKum: minimumKumaraAmount, i: invalidInput, maxKumInBag: maximumKumaraInBag, kumP: kumaraPricePerKg, bagP: bagPrice)
+        if sale == invalidInput {
+
+        } else {
+            salesHistory.append(sale)
+            kumaraStock -= salesHistory[salesHistory.count - 1][0]
+        }
+
+
+    //Menu choice for view summary information
+    } else if menuChoice == menuChoiceViewSummaryInfomation {
+        showSummaryInformation(s: salesHistory)
+
+
+    //Menu choice for view previous sales.
+    } else if menuChoice == menuChoiceViewPreviousSales {
+        viewPreviousSales(s: salesHistory)
+
+
+    //menu choice for end program. 
+    } else if menuChoice == menuChoiceEndProgram {
+        print("Thank you for using this program.")
+        programRunning = false
+
     }
-    print(salesHistory)
-
-} else if menuChoice == 4 {
-showSummaryInformation(s: salesHistory)
-
-} else if menuChoice == 5 {
-    viewPreviousSales(s: salesHistory)
-
-} else if menuChoice == 6 {
-    print("end program")
-    programRunning = false
 
 }
-
-
-
-
-
-}
-
-
-
 
 
     }
